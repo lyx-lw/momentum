@@ -32,6 +32,7 @@ src/**/*.backup
 src/**/temp_fix.txt
 
 # Local tooling artifacts
+.worktrees/
 .lighthouse/
 stats.html
 lighthouse-report.report.*

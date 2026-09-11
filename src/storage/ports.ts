@@ -160,7 +160,7 @@ export const LOCAL_STORAGE_CAPABILITIES: StorageCapabilities = {
   auth: false,
   userSettings: false,
   betting: false,
-  checkin: false,
+  checkin: true,
   cloudSync: false,
 };
 

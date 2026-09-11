@@ -7,8 +7,45 @@ import { createUnitChain } from '../../test/factories';
 
 describe('Dashboard', () => {
   beforeEach(() => {
+    localStorage.clear();
     localStorage.setItem('language', 'en');
     vi.clearAllMocks();
+  });
+
+  it('never falls back to the in-memory check-in demo', async () => {
+    const storage = {
+      kind: 'local',
+      getDeletedChains: vi.fn().mockResolvedValue([]),
+    };
+
+    render(
+      <I18nProvider>
+        <StorageProvider storage={storage as any}>
+          <Dashboard
+            chains={[]}
+            scheduledSessions={[]}
+            onCreateChain={vi.fn()}
+            onCreateTaskGroup={vi.fn()}
+            onOpenRSIP={vi.fn()}
+            onStartChain={vi.fn()}
+            onScheduleChain={vi.fn()}
+            onViewChainDetail={vi.fn()}
+            onCancelScheduledSession={vi.fn()}
+            onCompleteBooking={vi.fn()}
+            onDeleteChain={vi.fn()}
+            onImportChains={vi.fn().mockResolvedValue(undefined)}
+            onRestoreChains={vi.fn()}
+            onPermanentDeleteChains={vi.fn()}
+          />
+        </StorageProvider>
+      </I18nProvider>,
+    );
+
+    expect(
+      await screen.findByText('Daily check-in unavailable'),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('🚀 Demo mode')).not.toBeInTheDocument();
+    expect(screen.queryByText('Demo notes')).not.toBeInTheDocument();
   });
 
   it('renders chain section and shows recycle bin count for non-empty chains', async () => {

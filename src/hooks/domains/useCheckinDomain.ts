@@ -7,7 +7,7 @@
  * - 执行每日签到操作
  * - 管理签到 UI 状态（加载中、错误、成功消息）
  *
- * 仅在 Supabase 模式下生效，本地模式不支持签到功能。
+ * 本地模式使用浏览器本地持久化，Supabase 模式使用云端原子签到。
  *
  * @see src/domain/checkin.ts - 类型定义
  * @see docs/api/daily-checkin-api-guide.md - API 文档

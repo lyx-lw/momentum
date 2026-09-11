@@ -13,8 +13,6 @@ const USER_SETTINGS_NOT_SUPPORTED_MESSAGE =
   'User settings are not supported in local storage mode';
 const BETTING_NOT_SUPPORTED_MESSAGE =
   'Betting is not supported in local storage mode';
-const DAILY_CHECKIN_NOT_SUPPORTED_MESSAGE =
-  'Daily check-in is not supported in local storage mode';
 
 export const localStorageAdapter: MomentumStorage = {
   kind: 'local',
@@ -125,11 +123,29 @@ export const localStorageAdapter: MomentumStorage = {
     notSupported(BETTING_NOT_SUPPORTED_MESSAGE),
   getTodayBetAmount: async () => notSupported(BETTING_NOT_SUPPORTED_MESSAGE),
 
-  // Daily check-in (not supported in local mode)
-  performDailyCheckin: async () =>
-    notSupported(DAILY_CHECKIN_NOT_SUPPORTED_MESSAGE),
-  getUserCheckinStats: async () =>
-    notSupported(DAILY_CHECKIN_NOT_SUPPORTED_MESSAGE),
+  // Daily check-in
+  performDailyCheckin: async () => {
+    try {
+      return ok(localStorageUtils.performLocalDailyCheckin());
+    } catch (cause) {
+      return err<AppError>({
+        code: 'STORAGE',
+        message: 'Failed to save local daily check-in',
+        cause,
+      });
+    }
+  },
+  getUserCheckinStats: async () => {
+    try {
+      return ok(localStorageUtils.getLocalCheckinStats());
+    } catch (cause) {
+      return err<AppError>({
+        code: 'STORAGE',
+        message: 'Failed to load local daily check-in',
+        cause,
+      });
+    }
+  },
 
   // Pet (supported in local mode)
   getPetState: async () => localStorageUtils.getPetState(),

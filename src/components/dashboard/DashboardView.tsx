@@ -55,16 +55,6 @@ const DailyCheckin = lazy(
     'DailyCheckin',
   ),
 );
-const DailyCheckinDemo = lazy(
-  lazyWithChunkRecovery(
-    () =>
-      import('../DailyCheckinDemo').then((module) => ({
-        default: module.DailyCheckinDemo,
-      })),
-    'DailyCheckinDemo',
-  ),
-);
-
 const CheckinPlaceholder = () => (
   <div className="mx-auto h-24 max-w-2xl animate-pulse rounded-2xl bg-gray-100 dark:bg-slate-800" />
 );
@@ -103,7 +93,6 @@ export function DashboardView({
   language,
   topLevelChains,
   recycleBinCount,
-  canUseCheckin,
   canUseSupabase,
   isChoicePending,
   showImportExport,
@@ -171,11 +160,7 @@ export function DashboardView({
 
         <div className="mb-12 animate-fade-in">
           <Suspense fallback={<CheckinPlaceholder />}>
-            {canUseCheckin ? (
-              <DailyCheckin className="mx-auto max-w-2xl" />
-            ) : (
-              <DailyCheckinDemo className="mx-auto max-w-2xl" />
-            )}
+            <DailyCheckin className="mx-auto max-w-2xl" />
           </Suspense>
         </div>
 

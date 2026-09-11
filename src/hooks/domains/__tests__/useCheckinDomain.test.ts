@@ -9,6 +9,7 @@ import {
 import { renderHookWithProviders } from '../../../test/helpers/renderHookWithProviders';
 import { POINTS_CHANGED_EVENT } from '../../../utils/pointsEvents';
 import { logger } from '../../../utils/logger';
+import { LOCAL_STORAGE_CAPABILITIES } from '../../../storage/ports';
 import {
   getSafeErrorDetail,
   getSafeErrorDetailFromUnknown,
@@ -71,8 +72,12 @@ describe('useCheckinDomain', () => {
     expect(result.current.error).toBeNull();
   });
 
-  it('should set login-required error when storage kind is local', async () => {
-    const storage = createLocalStorageMock();
+  it('should load checkin stats when storage kind is local', async () => {
+    const getUserCheckinStats = vi.fn(async () => ok(baseStats));
+    const storage = createLocalStorageMock({
+      capabilities: LOCAL_STORAGE_CAPABILITIES,
+      getUserCheckinStats,
+    });
 
     const { result } = renderHookWithProviders(() => useCheckinDomain(), {
       storage,
@@ -82,12 +87,18 @@ describe('useCheckinDomain', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(result.current.stats).toBeNull();
-    expect(result.current.error).toContain('Daily check-in requires login');
+    expect(getUserCheckinStats).toHaveBeenCalledTimes(1);
+    expect(result.current.stats).toEqual(baseStats);
+    expect(result.current.error).toBeNull();
   });
 
   it('should toggle collapsed state and clear error', async () => {
-    const storage = createLocalStorageMock();
+    const storage = createLocalStorageMock({
+      capabilities: LOCAL_STORAGE_CAPABILITIES,
+      getUserCheckinStats: vi.fn(async () =>
+        err({ code: 'STORAGE', message: 'local read failed' }),
+      ),
+    });
     const { result } = renderHookWithProviders(() => useCheckinDomain(), {
       storage,
     });
@@ -97,7 +108,7 @@ describe('useCheckinDomain', () => {
     });
 
     expect(result.current.isCollapsed).toBe(false);
-    expect(result.current.error).toContain('Daily check-in requires login');
+    expect(result.current.error).toContain('Failed to load check-in data');
 
     await act(async () => {
       result.current.toggleCollapsed();
@@ -445,11 +456,14 @@ describe('useCheckinDomain', () => {
     expect(removeCall?.[1]).toBe(addCall?.[1]);
   });
 
-  it('should not attach points changed listener in local mode', async () => {
+  it('should attach and clean up points changed listener in local mode', async () => {
     const addSpy = vi.spyOn(window, 'addEventListener');
-    const storage = createLocalStorageMock();
+    const removeSpy = vi.spyOn(window, 'removeEventListener');
+    const storage = createLocalStorageMock({
+      capabilities: LOCAL_STORAGE_CAPABILITIES,
+    });
 
-    const { result } = renderHookWithProviders(() => useCheckinDomain(), {
+    const { result, unmount } = renderHookWithProviders(() => useCheckinDomain(), {
       storage,
     });
 
@@ -460,6 +474,13 @@ describe('useCheckinDomain', () => {
     const eventCalls = addSpy.mock.calls.filter(
       ([eventName]) => eventName === POINTS_CHANGED_EVENT,
     );
-    expect(eventCalls).toHaveLength(0);
+    expect(eventCalls).toHaveLength(1);
+
+    unmount();
+
+    const removeCall = removeSpy.mock.calls.find(
+      ([eventName]) => eventName === POINTS_CHANGED_EVENT,
+    );
+    expect(removeCall?.[1]).toBe(eventCalls[0]?.[1]);
   });
 });

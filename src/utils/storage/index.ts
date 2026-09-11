@@ -16,6 +16,10 @@ import {
 } from './history';
 import { getPetState, savePetState } from './pet';
 import {
+  getLocalCheckinStats,
+  performLocalDailyCheckin,
+} from './checkin';
+import {
   appendRSIPExecutionRecord,
   appendRSIPRunRecord,
   getRSIPExecutionRecords,
@@ -123,4 +127,8 @@ export const storage = {
   // Pet state
   getPetState,
   savePetState,
+
+  // Daily check-in
+  getLocalCheckinStats,
+  performLocalDailyCheckin,
 };

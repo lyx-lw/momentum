@@ -15,7 +15,7 @@ describe('storage capabilities', () => {
 
     expect(hasStorageCapability(storage, 'auth')).toBe(false);
     expect(hasStorageCapability(storage, 'betting')).toBe(false);
-    expect(hasStorageCapability(storage, 'checkin')).toBe(false);
+    expect(hasStorageCapability(storage, 'checkin')).toBe(true);
     expect(hasStorageCapability(storage, 'cloudSync')).toBe(false);
   });
 

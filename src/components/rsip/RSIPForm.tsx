@@ -196,13 +196,13 @@ export const RSIPForm: React.FC<RSIPFormProps> = ({
           <label className="mb-2 block font-chinese text-sm font-medium text-gray-700 dark:text-slate-300">
             {tr('所属国策组', 'Policy group')}
           </label>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
             <select
               value={selectedGroupId || ''}
               onChange={(e) =>
                 setSelectedGroupId?.(e.target.value || undefined)
               }
-              className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-3 py-2 font-chinese text-gray-900 transition duration-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100"
+              className="min-w-0 w-full rounded-2xl border border-gray-200 bg-gray-50 px-3 py-2 font-chinese text-gray-900 transition duration-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100"
             >
               <option value="">{tr('不分组', 'No group')}</option>
               {(groups ?? []).map((group) => (
@@ -217,7 +217,7 @@ export const RSIPForm: React.FC<RSIPFormProps> = ({
               <button
                 type="button"
                 onClick={onCreateGroup}
-                className="rounded-xl border border-gray-200 px-3 py-2 text-xs text-gray-700 transition hover:bg-gray-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
+                className="min-h-11 w-full shrink-0 whitespace-nowrap rounded-xl border border-gray-200 px-3 py-2 text-xs text-gray-700 transition hover:bg-gray-100 sm:w-auto dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
               >
                 {tr('新建组', 'New group')}
               </button>
@@ -244,8 +244,8 @@ export const RSIPForm: React.FC<RSIPFormProps> = ({
         </div>
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
-        <div className="font-chinese text-sm text-gray-600 dark:text-slate-400">
+      <div className="mt-4 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0 font-chinese text-sm text-gray-600 dark:text-slate-400">
           {meta.allowMultiplePerDay
             ? tr(
                 '已开启“一天可多条”。今日可继续新增。',
@@ -266,7 +266,7 @@ export const RSIPForm: React.FC<RSIPFormProps> = ({
         <button
           onClick={onAdd}
           disabled={isAddDisabled}
-          className={`flex items-center space-x-2 rounded-2xl px-6 py-3 font-medium shadow-lg transition duration-300 ${isAddDisabled ? 'bg-gray-200 text-gray-400 dark:bg-slate-700 dark:text-slate-500' : 'gradient-primary text-white hover:scale-105 hover:shadow-xl'}`}
+          className={`flex min-h-11 w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-2xl px-6 py-3 font-medium shadow-lg transition duration-300 sm:w-auto ${isAddDisabled ? 'bg-gray-200 text-gray-400 dark:bg-slate-700 dark:text-slate-500' : 'gradient-primary text-white hover:scale-105 hover:shadow-xl'}`}
         >
           <Plus size={18} />
           <span className="font-chinese">{tr('新增国策', 'Add policy')}</span>

@@ -31,6 +31,30 @@ describe('RSIPSplitModeSection', () => {
       />,
     );
 
+    const templateButton = screen.getByRole('button', {
+      name: 'Sleep template',
+    });
+    const addRowButton = screen.getByRole('button', {
+      name: 'Add sub-policy',
+    });
+    const submitButton = screen.getByRole('button', {
+      name: 'Create split policies',
+    });
+
+    expect(templateButton.parentElement).toHaveClass(
+      'grid',
+      'grid-cols-2',
+      'sm:flex',
+      'sm:flex-wrap',
+    );
+    expect(templateButton).toHaveClass('whitespace-nowrap');
+    expect(addRowButton).toHaveClass('whitespace-nowrap');
+    expect(submitButton).toHaveClass(
+      'w-full',
+      'whitespace-nowrap',
+      'sm:w-auto',
+    );
+
     fireEvent.click(screen.getByLabelText('Enable'));
     fireEvent.change(
       screen.getByPlaceholderText('Goal, e.g. Sleep early and wake early'),
@@ -38,11 +62,9 @@ describe('RSIPSplitModeSection', () => {
         target: { value: 'Updated goal' },
       },
     );
-    fireEvent.click(screen.getByRole('button', { name: 'Sleep template' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Add sub-policy' }));
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Create split policies' }),
-    );
+    fireEvent.click(templateButton);
+    fireEvent.click(addRowButton);
+    fireEvent.click(submitButton);
 
     expect(setSplitMode).toHaveBeenCalledWith(false);
     expect(setSplitGoal).toHaveBeenCalledWith('Updated goal');

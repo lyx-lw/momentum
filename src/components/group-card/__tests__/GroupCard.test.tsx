@@ -114,7 +114,13 @@ describe('GroupCard', () => {
     await user.click(
       screen.getByRole('button', { name: 'View details: Focus Group' }),
     );
-    await user.click(screen.getByRole('button', { name: 'Start next' }));
+    const startButton = screen.getByRole('button', { name: 'Start next' });
+    const startLabel = screen.getByText('Start next');
+    expect(startButton.parentElement).toHaveClass('gap-2', 'sm:gap-3');
+    expect(startButton).toHaveClass('px-2', 'sm:px-4');
+    expect(startLabel).toHaveClass('whitespace-nowrap');
+
+    await user.click(startButton);
     await user.click(screen.getByRole('button', { name: 'Schedule' }));
 
     expect(handlers.onViewDetail).toHaveBeenCalledWith('group-1');

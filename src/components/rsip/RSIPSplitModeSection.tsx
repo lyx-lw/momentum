@@ -85,13 +85,13 @@ export function RSIPSplitModeSection({
             className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
           />
 
-          <div className="flex gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {splitTemplateKeys.map((templateKey) => (
               <button
                 key={templateKey}
                 type="button"
                 onClick={() => onApplySplitTemplate(templateKey)}
-                className="rounded-lg bg-gray-100 px-3 py-1.5 text-xs text-gray-700 dark:bg-slate-700 dark:text-slate-200"
+                className="min-h-11 whitespace-nowrap rounded-lg bg-gray-100 px-3 py-1.5 text-xs text-gray-700 dark:bg-slate-700 dark:text-slate-200"
               >
                 {getTemplateLabel(templateKey, tr)}
               </button>
@@ -99,7 +99,7 @@ export function RSIPSplitModeSection({
             <button
               type="button"
               onClick={onAddSplitRow}
-              className="rounded-lg bg-indigo-600 px-3 py-1.5 text-xs text-white"
+              className="min-h-11 whitespace-nowrap rounded-lg bg-indigo-600 px-3 py-1.5 text-xs text-white"
             >
               {tr('新增子国策', 'Add sub-policy')}
             </button>
@@ -145,7 +145,7 @@ export function RSIPSplitModeSection({
             type="button"
             onClick={onSubmitSplit}
             disabled={!canAddToday || splitItems.length === 0}
-            className={`rounded-xl px-4 py-2 text-sm font-medium ${
+            className={`min-h-11 w-full whitespace-nowrap rounded-xl px-4 py-2 text-sm font-medium sm:w-auto ${
               !canAddToday || splitItems.length === 0
                 ? 'cursor-not-allowed bg-gray-200 text-gray-500 dark:bg-slate-700 dark:text-slate-500'
                 : 'bg-emerald-600 text-white hover:bg-emerald-700'

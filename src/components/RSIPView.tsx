@@ -36,11 +36,11 @@ export function RSIPView(props: RSIPViewProps) {
           </div>
         </header>
 
-        <div className="mb-6 flex gap-2">
+        <div className="mb-6 flex gap-2 overflow-x-auto pb-2">
           <button
             type="button"
             onClick={() => setActiveTab('tree')}
-            className={`rounded-xl px-4 py-2 text-sm transition ${
+            className={`min-h-11 shrink-0 whitespace-nowrap rounded-xl px-4 py-2 text-sm transition ${
               activeTab === 'tree'
                 ? 'bg-emerald-600 text-white'
                 : 'bg-gray-100 text-gray-700 dark:bg-slate-700 dark:text-slate-200'
@@ -51,7 +51,7 @@ export function RSIPView(props: RSIPViewProps) {
           <button
             type="button"
             onClick={() => setActiveTab('library')}
-            className={`rounded-xl px-4 py-2 text-sm transition ${
+            className={`min-h-11 shrink-0 whitespace-nowrap rounded-xl px-4 py-2 text-sm transition ${
               activeTab === 'library'
                 ? 'bg-emerald-600 text-white'
                 : 'bg-gray-100 text-gray-700 dark:bg-slate-700 dark:text-slate-200'
@@ -62,7 +62,7 @@ export function RSIPView(props: RSIPViewProps) {
           <button
             type="button"
             onClick={() => setActiveTab('history')}
-            className={`rounded-xl px-4 py-2 text-sm transition ${
+            className={`min-h-11 shrink-0 whitespace-nowrap rounded-xl px-4 py-2 text-sm transition ${
               activeTab === 'history'
                 ? 'bg-emerald-600 text-white'
                 : 'bg-gray-100 text-gray-700 dark:bg-slate-700 dark:text-slate-200'
@@ -73,7 +73,7 @@ export function RSIPView(props: RSIPViewProps) {
           <button
             type="button"
             onClick={() => setActiveTab('insights')}
-            className={`rounded-xl px-4 py-2 text-sm transition ${
+            className={`min-h-11 shrink-0 whitespace-nowrap rounded-xl px-4 py-2 text-sm transition ${
               activeTab === 'insights'
                 ? 'bg-emerald-600 text-white'
                 : 'bg-gray-100 text-gray-700 dark:bg-slate-700 dark:text-slate-200'

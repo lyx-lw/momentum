@@ -86,23 +86,27 @@ export function ChainExecutionActions({
         </div>
       )}
 
-      <div className="flex space-x-3">
+      <div className="flex gap-2 sm:gap-3">
         <button
           type="button"
           onClick={stopCardClick(onStart)}
-          className="gradient-primary focus-ring flex flex-1 items-center justify-center space-x-2 rounded-2xl px-4 py-3 font-medium text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl"
+          className="gradient-primary focus-ring flex min-h-11 flex-1 items-center justify-center gap-2 rounded-2xl px-2 py-3 text-sm font-medium text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl sm:px-4 sm:text-base"
         >
-          <Play size={16} aria-hidden="true" />
-          <span className="font-chinese font-semibold">{startLabel}</span>
+          <Play className="shrink-0" size={16} aria-hidden="true" />
+          <span className="whitespace-nowrap font-chinese font-semibold">
+            {startLabel}
+          </span>
         </button>
         {!scheduled && (
           <button
             type="button"
             onClick={stopCardClick(onSchedule)}
-            className="gradient-dark focus-ring flex flex-1 items-center justify-center space-x-2 rounded-2xl px-4 py-3 font-medium text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl"
+            className="gradient-dark focus-ring flex min-h-11 flex-1 items-center justify-center gap-2 rounded-2xl px-2 py-3 text-sm font-medium text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl sm:px-4 sm:text-base"
           >
-            <Clock size={16} aria-hidden="true" />
-            <span className="font-chinese font-semibold">{scheduleLabel}</span>
+            <Clock className="shrink-0" size={16} aria-hidden="true" />
+            <span className="whitespace-nowrap font-chinese font-semibold">
+              {scheduleLabel}
+            </span>
           </button>
         )}
       </div>

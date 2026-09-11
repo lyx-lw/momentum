@@ -54,7 +54,7 @@ export function FocusModeView(props: FocusModeViewProps) {
 
   return (
     <main
-      className={`relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--surface-canvas)] px-4 py-20 sm:px-6 ${session.isPaused ? 'focus-paused' : 'focus-running'}`}
+      className={`relative flex min-h-screen min-h-[100dvh] items-center justify-center overflow-x-hidden overflow-y-auto bg-[var(--surface-canvas)] px-4 py-8 sm:px-6 sm:py-20 ${session.isPaused ? 'focus-paused' : 'focus-running'}`}
     >
       <div className="relative z-10 w-full max-w-5xl animate-fade-in">
         <FocusSessionHeader

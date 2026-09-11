@@ -45,7 +45,10 @@ export function FocusTimerPanel({
 
   return (
     <section className="mb-12 text-center sm:mb-16" aria-live="polite">
-      <div className="relative mb-8 flex items-center justify-center py-4">
+      <div
+        className="relative mx-auto mb-6 flex h-[min(300px,72vw,42dvh)] w-[min(300px,72vw,42dvh)] items-center justify-center sm:mb-8"
+        data-focus-timer-frame
+      >
         <div
           className="pointer-events-none absolute inset-0 flex items-center justify-center"
           aria-hidden="true"
@@ -54,10 +57,10 @@ export function FocusTimerPanel({
             progress={progress}
             isDurationless={isDurationless}
             isPaused={session.isPaused}
-            className="h-[min(300px,72vw)] w-[min(300px,72vw)]"
+            className="h-full w-full"
           />
         </div>
-        <div className="focus-timer-value relative z-10 px-8 font-mono text-[clamp(4rem,15vw,9rem)] font-light leading-none tracking-tight text-gray-950 dark:text-white">
+        <div className="focus-timer-value relative z-10 px-4 font-mono text-[clamp(3.25rem,15vw,9rem)] font-light leading-none tracking-tight text-gray-950 dark:text-white">
           {isDurationless
             ? formatElapsedTime(elapsedSeconds)
             : formatDuration(timeRemaining)}

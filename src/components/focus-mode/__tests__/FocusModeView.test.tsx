@@ -177,6 +177,17 @@ describe('FocusModeView', () => {
     ).toBeInTheDocument();
   });
 
+  it('reserves responsive layout space for the timer ring on short screens', () => {
+    const { container } = renderView(createProps());
+
+    const timerFrame = container.querySelector('[data-focus-timer-frame]');
+    expect(timerFrame).toHaveClass(
+      'h-[min(300px,72vw,42dvh)]',
+      'w-[min(300px,72vw,42dvh)]',
+    );
+    expect(timerFrame).not.toHaveClass('absolute');
+  });
+
   it('hides the long-press interrupt action while paused', () => {
     renderView(
       createProps({

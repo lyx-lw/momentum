@@ -31,6 +31,37 @@ function DialogHarness({ onClose = vi.fn() }: { onClose?: () => void }) {
 }
 
 describe('DialogShell', () => {
+  it('keeps the active input focused when the onClose callback changes', () => {
+    const onBlur = vi.fn();
+    const trigger = document.createElement('button');
+    document.body.appendChild(trigger);
+    trigger.focus();
+
+    function SearchDialog({ onClose }: { onClose: () => void }) {
+      const searchRef = useRef<HTMLInputElement>(null);
+      return (
+        <DialogShell
+          titleId="search-dialog-title"
+          onClose={onClose}
+          initialFocusRef={searchRef}
+        >
+          <h2 id="search-dialog-title">Search dialog</h2>
+          <input ref={searchRef} aria-label="Search rules" onBlur={onBlur} />
+        </DialogShell>
+      );
+    }
+
+    const { rerender } = render(<SearchDialog onClose={vi.fn()} />);
+    const searchInput = screen.getByRole('textbox', { name: 'Search rules' });
+    expect(searchInput).toHaveFocus();
+
+    rerender(<SearchDialog onClose={vi.fn()} />);
+
+    expect(onBlur).not.toHaveBeenCalled();
+    expect(searchInput).toHaveFocus();
+    trigger.remove();
+  });
+
   it('does not steal focus after the user selects another dialog control', () => {
     vi.useFakeTimers();
     try {

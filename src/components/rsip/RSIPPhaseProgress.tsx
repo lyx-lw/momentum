@@ -3,6 +3,7 @@ import type { RSIPStabilityPhase } from '../../types';
 interface RSIPPhaseProgressProps {
   phase: RSIPStabilityPhase;
   consecutiveDays: number;
+  cumulativeDays: number;
 }
 
 const PHASE_THRESHOLDS: Record<RSIPStabilityPhase, number> = {
@@ -20,6 +21,7 @@ const PHASE_GRADIENT_CLASS: Record<RSIPStabilityPhase, string> = {
 export function RSIPPhaseProgress({
   phase,
   consecutiveDays,
+  cumulativeDays,
 }: RSIPPhaseProgressProps) {
   const threshold = PHASE_THRESHOLDS[phase];
   const isMaxPhase = phase === 'E2';
@@ -41,11 +43,12 @@ export function RSIPPhaseProgress({
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between text-xs">
-        <span className="text-slate-600 dark:text-white/50">
-          {phaseStatusText}
-        </span>
-        <span className="font-medium text-slate-800 dark:text-white/70">
-          {isMaxPhase ? '完成' : `${consecutiveDays}/${threshold} 天`}
+        <span className="text-slate-600 dark:text-white/50">连续执行进度</span>
+        <span className="flex gap-1 font-medium text-slate-800 dark:text-white/70">
+          <span>{phaseStatusText}</span>
+          <span>
+            {isMaxPhase ? '完成' : `${consecutiveDays}/${threshold} 天`}
+          </span>
         </span>
       </div>
 
@@ -55,6 +58,10 @@ export function RSIPPhaseProgress({
           style={{ width: `${progress}%` }}
         />
       </div>
+
+      <p className="text-xs text-slate-500 dark:text-white/50">
+        连续 {consecutiveDays} 天 · 累计 {cumulativeDays} 天
+      </p>
     </div>
   );
 }

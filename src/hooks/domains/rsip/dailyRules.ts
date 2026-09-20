@@ -4,6 +4,24 @@ export function hasExecutedToday(node: RSIPNode, now = new Date()): boolean {
   return node.lastExecutedAt?.toDateString() === now.toDateString();
 }
 
+export function willResetExecutionStreak(
+  node: RSIPNode,
+  now = new Date(),
+): boolean {
+  if (!node.lastExecutedAt || (node.consecutiveExecutions ?? 0) <= 0) {
+    return false;
+  }
+
+  const lastExecutionDate = node.lastExecutedAt.toDateString();
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  return (
+    lastExecutionDate !== now.toDateString() &&
+    lastExecutionDate !== yesterday.toDateString()
+  );
+}
+
 export function nextExecutionStreak(node: RSIPNode, now: Date): number {
   const yesterday = new Date(now);
   yesterday.setDate(yesterday.getDate() - 1);

@@ -1,5 +1,11 @@
+import { useState } from 'react';
 import { Check, Shield, X } from 'lucide-react';
 import type { RSIPNode, RSIPStabilityPhase } from '../../types';
+import {
+  hasExecutedToday,
+  willResetExecutionStreak,
+} from '../../hooks/domains/rsip/dailyRules';
+import { ConfirmationDialog } from '../ConfirmationDialog';
 import { RSIPConstraintIndicator } from './RSIPConstraintIndicator';
 import { RSIPPhaseBadge } from './RSIPPhaseBadge';
 import { RSIPPhaseProgress } from './RSIPPhaseProgress';
@@ -35,7 +41,26 @@ export function RSIPStrictModeCard({
 }: RSIPStrictModeCardProps) {
   const phase: RSIPStabilityPhase = node.stabilityPhase ?? 'E0';
   const consecutiveExecutions = node.consecutiveExecutions ?? 0;
+  const cumulativeExecutionDays = node.cumulativeExecutionDays ?? 0;
   const reinforcementLevel = node.reinforcementLevel ?? 0;
+  const executedToday = hasExecutedToday(node);
+  const [showResetConfirmation, setShowResetConfirmation] = useState(false);
+
+  const handleExecutionClick = () => {
+    if (executedToday) {
+      return;
+    }
+    if (willResetExecutionStreak(node)) {
+      setShowResetConfirmation(true);
+      return;
+    }
+    onMarkExecuted();
+  };
+
+  const handleConfirmExecution = () => {
+    setShowResetConfirmation(false);
+    onMarkExecuted();
+  };
 
   const cardBgClass = CARD_BG_CLASS_BY_PHASE[phase];
   const hoverBorderClass = HOVER_BORDER_CLASS_BY_PHASE[phase];
@@ -79,6 +104,7 @@ export function RSIPStrictModeCard({
       <RSIPPhaseProgress
         phase={phase}
         consecutiveDays={consecutiveExecutions}
+        cumulativeDays={cumulativeExecutionDays}
       />
 
       <div className="mt-3 border-t border-slate-200 pt-3 dark:border-white/10">
@@ -101,11 +127,12 @@ export function RSIPStrictModeCard({
 
         <button
           type="button"
-          onClick={onMarkExecuted}
-          className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 py-2.5 font-medium text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-emerald-500/20 dark:text-emerald-200 dark:shadow-none dark:hover:bg-emerald-500/30 dark:focus-visible:ring-emerald-500/60 dark:focus-visible:ring-offset-slate-950"
+          onClick={handleExecutionClick}
+          disabled={executedToday}
+          className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 font-medium shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:shadow-none dark:focus-visible:ring-emerald-500/60 dark:focus-visible:ring-offset-slate-950 ${executedToday ? 'cursor-not-allowed bg-emerald-100 text-emerald-700 opacity-70 dark:bg-emerald-500/10 dark:text-emerald-300' : 'cursor-pointer bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200 dark:hover:bg-emerald-500/30'}`}
         >
           <Check size={18} />
-          <span>已执行</span>
+          <span>{executedToday ? '今日已执行' : '已执行'}</span>
         </button>
 
         <button
@@ -117,6 +144,17 @@ export function RSIPStrictModeCard({
           <span>已违反</span>
         </button>
       </div>
+
+      <ConfirmationDialog
+        isOpen={showResetConfirmation}
+        title="连续执行已中断"
+        message="距上次执行已间隔至少一个自然日，本次将从第 1 天重新开始；累计执行天数不受影响。是否确认执行？"
+        confirmText="确认执行"
+        cancelText="取消"
+        confirmButtonClass="bg-emerald-600 hover:bg-emerald-700"
+        onConfirm={handleConfirmExecution}
+        onCancel={() => setShowResetConfirmation(false)}
+      />
     </div>
   );
 }

@@ -27,6 +27,9 @@ function createProps(
     onImportOptionsChange: vi.fn(),
     onFileUpload: vi.fn(),
     onExport: vi.fn(),
+    weeklyPeriod: 'current' as const,
+    onWeeklyPeriodChange: vi.fn(),
+    onWeeklyExport: vi.fn(),
     onImport: vi.fn(),
     onClose: vi.fn(),
     tr,
@@ -43,13 +46,25 @@ describe('ImportExportModalView', () => {
     expect(
       screen.getByRole('button', { name: 'Export as JSON' }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Export AI weekly raw data' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/includes task descriptions and notes/i),
+    ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Import' }));
     fireEvent.click(screen.getByRole('button', { name: 'Export as JSON' }));
+    fireEvent.click(screen.getByRole('radio', { name: 'Previous week' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Export AI weekly raw data' }),
+    );
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
     expect(props.onTabChange).toHaveBeenCalledWith('import');
     expect(props.onExport).toHaveBeenCalledTimes(1);
+    expect(props.onWeeklyPeriodChange).toHaveBeenCalledWith('previous');
+    expect(props.onWeeklyExport).toHaveBeenCalledTimes(1);
     expect(props.onClose).toHaveBeenCalledTimes(1);
   });
 

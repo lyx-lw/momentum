@@ -11,6 +11,8 @@ const getSafeErrorDetailMock = vi.hoisted(() => vi.fn());
 const loggerErrorMock = vi.hoisted(() => vi.fn());
 const saveFileMock = vi.hoisted(() => vi.fn(async () => true));
 const openFileMock = vi.hoisted(() => vi.fn(async () => null));
+const weeklyExportMock = vi.hoisted(() => vi.fn(async () => undefined));
+const useWeeklyExportWorkflowMock = vi.hoisted(() => vi.fn());
 
 vi.mock('../../storage/useStorage', () => ({
   useStorage: useStorageMock,
@@ -59,6 +61,10 @@ vi.mock('../../utils/platform-capabilities/center', () => ({
   }),
 }));
 
+vi.mock('../import-export-modal/useWeeklyExportWorkflow', () => ({
+  useWeeklyExportWorkflow: useWeeklyExportWorkflowMock,
+}));
+
 vi.mock('../ImportExportModalView', () => ({
   ImportExportModalView: (props: {
     activeTab: 'export' | 'import';
@@ -74,11 +80,15 @@ vi.mock('../ImportExportModalView', () => ({
     onTabChange: (tab: 'export' | 'import') => void;
     onImport: () => Promise<void>;
     onExport: () => Promise<void>;
+    weeklyPeriod: 'current' | 'previous';
+    onWeeklyPeriodChange: (period: 'current' | 'previous') => void;
+    onWeeklyExport: () => Promise<void>;
   }) => (
     <div>
       <div data-testid="active-tab">{props.activeTab}</div>
       <div data-testid="import-status">{props.importStatus}</div>
       <div data-testid="import-error">{props.importError}</div>
+      <div data-testid="weekly-period">{props.weeklyPeriod}</div>
       <button onClick={() => props.onImportDataChange('{"version":2}')}>
         set-import-json
       </button>
@@ -135,6 +145,16 @@ vi.mock('../ImportExportModalView', () => ({
         }}
       >
         run-export
+      </button>
+      <button onClick={() => props.onWeeklyPeriodChange('previous')}>
+        select-previous-week
+      </button>
+      <button
+        onClick={async () => {
+          await props.onWeeklyExport();
+        }}
+      >
+        run-weekly-export
       </button>
     </div>
   ),
@@ -193,6 +213,7 @@ describe('ImportExportModalContainer', () => {
       version: 3,
       chains: [{ id: 'c1' }],
     });
+    useWeeklyExportWorkflowMock.mockReturnValue(weeklyExportMock);
   });
 
   it('selects import tab when there are no chains and export tab otherwise', () => {
@@ -430,6 +451,29 @@ describe('ImportExportModalContainer', () => {
       expect.stringContaining('"version": 3'),
       expect.stringMatching(/^momentum-data-\d{4}-\d{2}-\d{2}\.json$/),
     );
+  });
+
+  it('wires weekly history and the selected period to weekly export', async () => {
+    const history = [{ id: 'h1' } as never];
+    render(
+      <ImportExportModalContainer
+        chains={[{ id: 'c1' } as never]}
+        history={history}
+        onImport={vi.fn(async () => undefined)}
+        onClose={vi.fn()}
+      />,
+    );
+
+    expect(useWeeklyExportWorkflowMock).toHaveBeenCalledWith({ history });
+    expect(screen.getByTestId('weekly-period').textContent).toBe('current');
+    fireEvent.click(screen.getByText('select-previous-week'));
+    expect(screen.getByTestId('weekly-period').textContent).toBe('previous');
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('run-weekly-export'));
+    });
+
+    expect(weeklyExportMock).toHaveBeenCalledWith('previous');
   });
 
   it('logs export failures', async () => {

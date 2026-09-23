@@ -1,6 +1,7 @@
 import React from 'react';
 import { Download, Upload, X, FileText } from 'lucide-react';
 import type { ImportExportImportOptions } from '../services/ImportExportService';
+import type { WeeklyPeriodPreset } from '../services/weekly-export/dateRange';
 import {
   type ImportStatus,
   ImportInfoBox,
@@ -27,6 +28,9 @@ interface ImportExportModalViewProps {
   onFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onOpenFile?: () => void;
   onExport: () => void;
+  weeklyPeriod: WeeklyPeriodPreset;
+  onWeeklyPeriodChange: (period: WeeklyPeriodPreset) => void;
+  onWeeklyExport: () => void;
   onImport: () => void;
   onClose: () => void;
   tr: (zh: string, en: string) => string;
@@ -46,6 +50,9 @@ export const ImportExportModalView: React.FC<ImportExportModalViewProps> = ({
   onFileUpload,
   onOpenFile,
   onExport,
+  weeklyPeriod,
+  onWeeklyPeriodChange,
+  onWeeklyExport,
   onImport,
   onClose,
   tr,
@@ -75,6 +82,9 @@ export const ImportExportModalView: React.FC<ImportExportModalViewProps> = ({
         <ExportTab
           chainsCount={chainsCount}
           onExport={onExport}
+          weeklyPeriod={weeklyPeriod}
+          onWeeklyPeriodChange={onWeeklyPeriodChange}
+          onWeeklyExport={onWeeklyExport}
           language={language}
           tr={tr}
         />

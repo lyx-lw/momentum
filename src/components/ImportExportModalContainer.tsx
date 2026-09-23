@@ -16,7 +16,9 @@ import { useI18n } from '../i18n';
 import { ImportExportModalView } from './ImportExportModalView';
 import type { ImportCallback } from './import-export-modal/types';
 import { useExportWorkflow } from './import-export-modal/useExportWorkflow';
+import { useWeeklyExportWorkflow } from './import-export-modal/useWeeklyExportWorkflow';
 import { useImportWorkflow } from './import-export-modal/useImportWorkflow';
+import type { WeeklyPeriodPreset } from '../services/weekly-export/dateRange';
 
 interface ImportExportModalContainerProps {
   chains: Chain[];
@@ -41,6 +43,8 @@ export const ImportExportModalContainer: React.FC<
   const [activeTab, setActiveTab] = useState<'export' | 'import'>(
     props.chains.length === 0 ? 'import' : 'export',
   );
+  const [weeklyPeriod, setWeeklyPeriod] =
+    useState<WeeklyPeriodPreset>('current');
   const exportData = useMemo(
     () => ({
       chains: props.chains,
@@ -70,6 +74,9 @@ export const ImportExportModalContainer: React.FC<
     ],
   );
   const handleExport = useExportWorkflow(exportData);
+  const handleWeeklyExport = useWeeklyExportWorkflow({
+    history: props.history ?? [],
+  });
   const importWorkflow = useImportWorkflow({
     existingRsipNodes: props.rsipNodes,
     existingRsipGroups: props.rsipGroups,
@@ -92,6 +99,9 @@ export const ImportExportModalContainer: React.FC<
       onFileUpload={importWorkflow.handleFileUpload}
       onOpenFile={importWorkflow.handleOpenFile}
       onExport={handleExport}
+      weeklyPeriod={weeklyPeriod}
+      onWeeklyPeriodChange={setWeeklyPeriod}
+      onWeeklyExport={() => handleWeeklyExport(weeklyPeriod)}
       onImport={importWorkflow.handleImport}
       onClose={props.onClose}
       tr={tr}

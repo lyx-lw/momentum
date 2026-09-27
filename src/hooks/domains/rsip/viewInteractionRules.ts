@@ -63,6 +63,7 @@ export function createNodeFromLibraryEntry(
     emoji: entry.emoji,
     type: entry.type,
     isPassive: entry.isPassive,
+    requiresDailyExecution: entry.requiresDailyExecution !== false,
     cumulativeExecutionDays: entry.cumulativeExecutionDays,
   };
 }

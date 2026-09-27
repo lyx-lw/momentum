@@ -17,6 +17,7 @@ export function useRSIPViewState({
   runHistory = [],
   executionRecords = [],
   policyLibrary = [],
+  canConfigureExecutionFrequency = false,
 }: Pick<
   RSIPViewProps,
   | 'nodes'
@@ -27,6 +28,7 @@ export function useRSIPViewState({
   | 'runHistory'
   | 'executionRecords'
   | 'policyLibrary'
+  | 'canConfigureExecutionFrequency'
 >): RSIPViewStateSlice {
   const { language, tr } = useI18n();
   const tree = useMemo<RSIPTreeNode[]>(() => buildRSIPTree(nodes), [nodes]);
@@ -44,6 +46,8 @@ export function useRSIPViewState({
   const [createType, setCreateType] = useState('policy');
   const [createEmoji, setCreateEmoji] = useState('📜');
   const [createIsPassive, setCreateIsPassive] = useState(false);
+  const [createRequiresDailyExecution, setCreateRequiresDailyExecution] =
+    useState(true);
   const [splitMode, setSplitMode] = useState(false);
   const [splitGoal, setSplitGoal] = useState('');
   const [splitItems, setSplitItems] = useState<
@@ -128,6 +132,9 @@ export function useRSIPViewState({
     setCreateEmoji,
     createIsPassive,
     setCreateIsPassive,
+    createRequiresDailyExecution,
+    setCreateRequiresDailyExecution,
+    canConfigureExecutionFrequency,
     splitMode,
     setSplitMode,
     splitGoal,

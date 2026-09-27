@@ -356,6 +356,7 @@ describe('useRSIPViewInteractionActions execution actions', () => {
         emoji: '♻️',
         type: 'routine',
         isPassive: false,
+        requiresDailyExecution: true,
         cumulativeExecutionDays: 12,
       },
     ]);

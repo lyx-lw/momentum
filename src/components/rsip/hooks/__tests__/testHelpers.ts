@@ -112,6 +112,8 @@ export function createState(
     setCreateEmoji: noop,
     createIsPassive: false,
     setCreateIsPassive: noop,
+    createRequiresDailyExecution: true,
+    setCreateRequiresDailyExecution: noop,
     splitMode: false,
     setSplitMode: noop,
     splitGoal: '',

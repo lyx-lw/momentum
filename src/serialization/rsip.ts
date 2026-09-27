@@ -43,6 +43,7 @@ export interface SerializedRSIPNode {
   maxReinforcementLevel?: unknown;
   cumulativeExecutionDays?: unknown;
   isPassive?: unknown;
+  requiresDailyExecution?: unknown;
   splitFromGoal?: unknown;
   stabilityPhase?: unknown;
   phaseStartedAt?: unknown;
@@ -87,6 +88,7 @@ export interface SerializedRSIPLibraryEntry {
   useTimer?: unknown;
   timerMinutes?: unknown;
   isPassive?: unknown;
+  requiresDailyExecution?: unknown;
 }
 
 export interface SerializedRSIPRunRecord {
@@ -142,6 +144,10 @@ export function decodeRSIPNode(raw: SerializedRSIPNode): RSIPNode {
     maxReinforcementLevel: toOptionalNumber(raw.maxReinforcementLevel),
     cumulativeExecutionDays: toOptionalNumber(raw.cumulativeExecutionDays),
     isPassive: toOptionalBoolean(raw.isPassive),
+    requiresDailyExecution: toBooleanWithDefault(
+      raw.requiresDailyExecution,
+      true,
+    ),
     splitFromGoal: toOptionalString(raw.splitFromGoal),
     stabilityPhase: parseStabilityPhase(raw.stabilityPhase),
     phaseStartedAt: parseDateOrUndefined(raw.phaseStartedAt),
@@ -208,6 +214,10 @@ export function decodeRSIPLibraryEntry(
     useTimer: toOptionalBoolean(raw.useTimer),
     timerMinutes: toOptionalNumber(raw.timerMinutes),
     isPassive: toOptionalBoolean(raw.isPassive),
+    requiresDailyExecution: toBooleanWithDefault(
+      raw.requiresDailyExecution,
+      true,
+    ),
   };
 }
 

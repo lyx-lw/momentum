@@ -4,6 +4,7 @@ interface RSIPPhaseProgressProps {
   phase: RSIPStabilityPhase;
   consecutiveDays: number;
   cumulativeDays: number;
+  requiresDailyExecution: boolean;
 }
 
 const PHASE_THRESHOLDS: Record<RSIPStabilityPhase, number> = {
@@ -22,6 +23,7 @@ export function RSIPPhaseProgress({
   phase,
   consecutiveDays,
   cumulativeDays,
+  requiresDailyExecution,
 }: RSIPPhaseProgressProps) {
   const threshold = PHASE_THRESHOLDS[phase];
   const isMaxPhase = phase === 'E2';
@@ -47,7 +49,9 @@ export function RSIPPhaseProgress({
         <span className="flex gap-1 font-medium text-slate-800 dark:text-white/70">
           <span>{phaseStatusText}</span>
           <span>
-            {isMaxPhase ? '完成' : `${consecutiveDays}/${threshold} 天`}
+            {isMaxPhase
+              ? '完成'
+              : `${consecutiveDays}/${threshold} ${requiresDailyExecution ? '天' : '次'}`}
           </span>
         </span>
       </div>
@@ -60,7 +64,9 @@ export function RSIPPhaseProgress({
       </div>
 
       <p className="text-xs text-slate-500 dark:text-white/50">
-        连续 {consecutiveDays} 天 · 累计 {cumulativeDays} 天
+        {requiresDailyExecution
+          ? `连续 ${consecutiveDays} 天 · 累计 ${cumulativeDays} 天`
+          : `连续合规执行 ${consecutiveDays} 次 · 累计 ${cumulativeDays} 天`}
       </p>
     </div>
   );

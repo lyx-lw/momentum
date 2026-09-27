@@ -121,4 +121,27 @@ describe('RSIPStrictModeCard', () => {
     expect(screen.queryByText('连续执行已中断')).not.toBeInTheDocument();
     expect(onMarkExecuted).toHaveBeenCalledOnce();
   });
+
+  it('非每日国策跨日显示次数且直接执行，不弹中断确认', () => {
+    const onMarkExecuted = vi.fn();
+    renderCard(
+      createNode({
+        requiresDailyExecution: false,
+        consecutiveExecutions: 3,
+        lastExecutedAt: new Date(2026, 8, 5, 8),
+      }),
+      onMarkExecuted,
+    );
+
+    expect(screen.getByText(/连续合规执行 3 次/)).toBeInTheDocument();
+    expect(screen.getByText('3/7 次')).toBeInTheDocument();
+    expect(screen.getByText(/累计 8 天/)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: '已执行' }));
+
+    expect(onMarkExecuted).toHaveBeenCalledOnce();
+    expect(
+      screen.queryByRole('dialog', { name: '连续执行已中断' }),
+    ).not.toBeInTheDocument();
+  });
 });

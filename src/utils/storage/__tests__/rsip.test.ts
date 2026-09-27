@@ -53,6 +53,34 @@ describe('storage/rsip', () => {
     expect(node.createdAt).toBeInstanceOf(Date);
   });
 
+  it('defaults legacy nodes to daily and round-trips non-daily nodes', () => {
+    localStorage.setItem(
+      STORAGE_KEYS.RSIP_NODES,
+      JSON.stringify([
+        {
+          id: 'legacy-node',
+          title: 'Legacy',
+          rule: 'Old data',
+          sortOrder: 0,
+          createdAt: '2026-02-01T00:00:00.000Z',
+        },
+      ]),
+    );
+
+    const [legacyNode] = getRSIPNodes();
+    expect(legacyNode.requiresDailyExecution).toBe(true);
+
+    saveRSIPNodes([
+      {
+        ...legacyNode,
+        id: 'non-daily-node',
+        requiresDailyExecution: false,
+      },
+    ]);
+
+    expect(getRSIPNodes()[0]?.requiresDailyExecution).toBe(false);
+  });
+
   it('hydrates optional RSIP node dates when stored as strings', () => {
     localStorage.setItem(
       STORAGE_KEYS.RSIP_NODES,
@@ -237,10 +265,22 @@ describe('storage/rsip', () => {
           lastActiveAt: null,
           timesUsed: 1,
         },
+        {
+          id: 'library-non-daily',
+          title: 'Non-daily Entry',
+          rule: 'Persist',
+          cumulativeExecutionDays: 3,
+          internalizationProgress: 5,
+          lastActiveAt: '2026-02-07T00:00:00.000Z',
+          timesUsed: 1,
+          requiresDailyExecution: false,
+        },
       ]),
     );
 
     const entries = getRSIPPolicyLibrary();
+    expect(entries[0]?.requiresDailyExecution).toBe(true);
+    expect(entries[2]?.requiresDailyExecution).toBe(false);
     expect(entries[0]?.lastActiveAt).toEqual(
       new Date('2026-02-06T00:00:00.000Z'),
     );

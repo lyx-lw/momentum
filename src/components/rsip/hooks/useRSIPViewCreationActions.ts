@@ -43,6 +43,7 @@ export function useRSIPViewCreationActions({
     createType,
     createEmoji,
     createIsPassive,
+    createRequiresDailyExecution,
     splitGoal,
     splitItems,
     setSelectedGroupId,
@@ -199,6 +200,7 @@ export function useRSIPViewCreationActions({
       type: createType,
       emoji: createEmoji,
       isPassive: createIsPassive,
+      requiresDailyExecution: createRequiresDailyExecution,
     };
     nodeCreationInFlightRef.current = true;
     try {
@@ -216,6 +218,7 @@ export function useRSIPViewCreationActions({
     canAddToday,
     createEmoji,
     createIsPassive,
+    createRequiresDailyExecution,
     createTimerMinutes,
     createType,
     createUseTimer,
@@ -289,6 +292,7 @@ export function useRSIPViewCreationActions({
       type: createType,
       emoji: createEmoji,
       isPassive: item.isPassive,
+      requiresDailyExecution: createRequiresDailyExecution,
       splitFromGoal: splitGoal.trim() || undefined,
     }));
 
@@ -310,6 +314,7 @@ export function useRSIPViewCreationActions({
     tr,
     createEmoji,
     createType,
+    createRequiresDailyExecution,
     enqueueMetaUpdate,
     nodes,
     onSaveNodes,

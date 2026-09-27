@@ -105,6 +105,7 @@ export function RSIPStrictModeCard({
         phase={phase}
         consecutiveDays={consecutiveExecutions}
         cumulativeDays={cumulativeExecutionDays}
+        requiresDailyExecution={node.requiresDailyExecution !== false}
       />
 
       <div className="mt-3 border-t border-slate-200 pt-3 dark:border-white/10">

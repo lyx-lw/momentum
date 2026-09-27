@@ -60,6 +60,9 @@ export function RSIPTreeTab({ model }: RSIPTreeTabProps) {
         setSelectedGroupId={model.setSelectedGroupId}
         createIsPassive={model.createIsPassive}
         setCreateIsPassive={model.setCreateIsPassive}
+        createRequiresDailyExecution={model.createRequiresDailyExecution}
+        setCreateRequiresDailyExecution={model.setCreateRequiresDailyExecution}
+        canConfigureExecutionFrequency={model.canConfigureExecutionFrequency}
         onCreateGroup={() =>
           fireAndForget(model.handleCreateGroup(), {
             label: 'create-rsip-group',

@@ -11,7 +11,12 @@ export default function AppShellContainer() {
   const state = useAppShellState();
   const bootstrap = useAppShellBootstrap(storage, state);
   const domains = useAppShellDomains(storage, state);
-  const viewModels = useAppShellViewModels(state, bootstrap, domains);
+  const viewModels = useAppShellViewModels(
+    state,
+    bootstrap,
+    domains,
+    storage.kind === 'local',
+  );
 
   const { pending, respond } = domains.taskLinkConfirmation;
   return (

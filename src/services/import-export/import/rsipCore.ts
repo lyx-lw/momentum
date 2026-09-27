@@ -5,6 +5,7 @@ import {
   parseDateOrUndefined,
   parseTruthyDateOrNow,
   parseTruthyDateOrUndefined,
+  toBooleanWithDefault,
   toNumber,
   toOptionalBoolean,
   toOptionalNumber,
@@ -110,6 +111,10 @@ function mapImportedRsipNode(
     maxReinforcementLevel: toOptionalNumber(raw.maxReinforcementLevel),
     cumulativeExecutionDays: toOptionalNumber(raw.cumulativeExecutionDays),
     isPassive: toOptionalBoolean(raw.isPassive),
+    requiresDailyExecution: toBooleanWithDefault(
+      raw.requiresDailyExecution,
+      true,
+    ),
     splitFromGoal: toOptionalString(raw.splitFromGoal),
     stabilityPhase: parseEnumValue(raw.stabilityPhase, RSIP_STABILITY_PHASES),
     phaseStartedAt: parseTruthyDateOrUndefined(raw.phaseStartedAt),

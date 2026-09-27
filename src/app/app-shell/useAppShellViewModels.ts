@@ -16,6 +16,7 @@ export function useAppShellViewModels(
   state: AppShellStateController,
   bootstrap: AppShellBootstrap,
   domains: AppShellDomains,
+  canConfigureExecutionFrequency: boolean,
 ) {
   const handleViewChainDetail = (chainId: string) => {
     const chain = state.chains.find((candidate) => candidate.id === chainId);
@@ -80,6 +81,7 @@ export function useAppShellViewModels(
     executionRecords: state.rsipExecutionRecords,
     taskLinks: state.rsipTaskLinks,
     chains: state.chains,
+    canConfigureExecutionFrequency,
     onBack: handleBackToDashboard,
     saveNodes: domains.saveNodes,
     saveMeta: domains.saveMeta,

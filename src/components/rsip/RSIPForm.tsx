@@ -25,6 +25,9 @@ interface RSIPFormProps {
   setSelectedGroupId?: (groupId: string | undefined) => void;
   createIsPassive?: boolean;
   setCreateIsPassive?: (isPassive: boolean) => void;
+  createRequiresDailyExecution: boolean;
+  setCreateRequiresDailyExecution: (requiresDailyExecution: boolean) => void;
+  canConfigureExecutionFrequency: boolean;
   onCreateGroup?: () => void;
   onAdd: () => void;
   language: string;
@@ -53,6 +56,9 @@ export const RSIPForm: React.FC<RSIPFormProps> = ({
   setSelectedGroupId,
   createIsPassive,
   setCreateIsPassive,
+  createRequiresDailyExecution,
+  setCreateRequiresDailyExecution,
+  canConfigureExecutionFrequency,
   onCreateGroup,
   onAdd,
   language,
@@ -170,7 +176,7 @@ export const RSIPForm: React.FC<RSIPFormProps> = ({
       </div>
 
       {/* Type selection */}
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-4">
         <div>
           <label className="mb-2 block font-chinese text-sm font-medium text-gray-700 dark:text-slate-300">
             {tr('节点类型', 'Node type')}
@@ -242,6 +248,28 @@ export const RSIPForm: React.FC<RSIPFormProps> = ({
             <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition after:content-[''] peer-checked:bg-indigo-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-indigo-800"></div>
           </label>
         </div>
+
+        {canConfigureExecutionFrequency && (
+          <div className="bento-subtle flex items-center justify-between rounded-2xl px-4 py-3">
+            <span className="font-chinese text-sm text-gray-700 dark:text-slate-300">
+              {tr('需要每日执行', 'Requires daily execution')}
+            </span>
+            <label
+              className="relative inline-flex cursor-pointer items-center"
+              aria-label={tr('需要每日执行', 'Requires daily execution')}
+            >
+              <input
+                type="checkbox"
+                checked={createRequiresDailyExecution}
+                onChange={(e) =>
+                  setCreateRequiresDailyExecution(e.target.checked)
+                }
+                className="peer sr-only"
+              />
+              <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition after:content-[''] peer-checked:bg-emerald-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-emerald-800"></div>
+            </label>
+          </div>
+        )}
       </div>
 
       <div className="mt-4 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">

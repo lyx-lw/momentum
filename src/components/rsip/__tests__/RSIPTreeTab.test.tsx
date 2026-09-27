@@ -138,6 +138,8 @@ function createModel(overrides: Partial<RSIPViewModel> = {}): RSIPViewModel {
     setCreateEmoji: vi.fn(),
     createIsPassive: false,
     setCreateIsPassive: vi.fn(),
+    createRequiresDailyExecution: true,
+    setCreateRequiresDailyExecution: vi.fn(),
     splitMode: false,
     setSplitMode: vi.fn(),
     splitGoal: '',

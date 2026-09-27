@@ -90,6 +90,7 @@ function createLibraryEntry(
     useTimer: overrides.useTimer ?? false,
     timerMinutes: overrides.timerMinutes,
     isPassive: overrides.isPassive ?? false,
+    requiresDailyExecution: overrides.requiresDailyExecution ?? true,
   };
 }
 
@@ -1038,6 +1039,7 @@ describe('useRsipDomain', () => {
         rule: 'Updated Rule',
         cumulativeExecutionDays: 20,
         emoji: '🧠',
+        requiresDailyExecution: false,
       }),
     );
     const created = await domain.archiveToLibrary(
@@ -1057,6 +1059,7 @@ describe('useRsipDomain', () => {
       internalizationProgress: 100,
       timesUsed: 3,
       lastActiveAt: new Date('2026-03-07T16:00:00.000Z'),
+      requiresDailyExecution: false,
     });
     expect(
       created.find((entry) => entry.id === 'new-library-node'),
@@ -1097,6 +1100,7 @@ describe('useRsipDomain', () => {
         useTimer: undefined,
         timerMinutes: undefined,
         isPassive: undefined,
+        requiresDailyExecution: undefined,
       }),
       [existingEntry],
     );
@@ -1112,6 +1116,7 @@ describe('useRsipDomain', () => {
       isPassive: true,
       cumulativeExecutionDays: 15,
       timesUsed: 2,
+      requiresDailyExecution: true,
     });
   });
 
@@ -1126,6 +1131,7 @@ describe('useRsipDomain', () => {
       timerMinutes: 25,
       cumulativeExecutionDays: 18,
       timesUsed: 4,
+      requiresDailyExecution: false,
     });
     const stateRef = createStateContainer(
       createBaseState({
@@ -1161,6 +1167,7 @@ describe('useRsipDomain', () => {
       useTimer: true,
       timerMinutes: 25,
       cumulativeExecutionDays: 18,
+      requiresDailyExecution: false,
       stabilityPhase: 'E0',
       consecutiveExecutions: 0,
       totalExecutions: 0,

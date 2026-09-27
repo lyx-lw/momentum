@@ -44,6 +44,9 @@ export interface RSIPViewStateSlice {
   setCreateEmoji: (emoji: string) => void;
   createIsPassive: boolean;
   setCreateIsPassive: (value: boolean) => void;
+  createRequiresDailyExecution: boolean;
+  setCreateRequiresDailyExecution: (value: boolean) => void;
+  canConfigureExecutionFrequency: boolean;
   splitMode: boolean;
   setSplitMode: (value: boolean) => void;
   splitGoal: string;

@@ -34,6 +34,7 @@ export interface RSIPViewProps {
   executionRecords?: RSIPExecutionRecord[];
   taskLinks?: RSIPTaskLink[];
   chains?: Chain[];
+  canConfigureExecutionFrequency?: boolean;
   onBack: () => void;
   onSaveNodes: (nodes: RSIPNode[]) => void | Promise<void>;
   onSaveMeta: (meta: RSIPMeta) => void | Promise<void>;

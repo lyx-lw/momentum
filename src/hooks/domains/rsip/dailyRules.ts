@@ -4,10 +4,15 @@ export function hasExecutedToday(node: RSIPNode, now = new Date()): boolean {
   return node.lastExecutedAt?.toDateString() === now.toDateString();
 }
 
+function requiresDailyExecution(node: RSIPNode): boolean {
+  return node.requiresDailyExecution !== false;
+}
+
 export function willResetExecutionStreak(
   node: RSIPNode,
   now = new Date(),
 ): boolean {
+  if (!requiresDailyExecution(node)) return false;
   if (!node.lastExecutedAt || (node.consecutiveExecutions ?? 0) <= 0) {
     return false;
   }
@@ -23,6 +28,9 @@ export function willResetExecutionStreak(
 }
 
 export function nextExecutionStreak(node: RSIPNode, now: Date): number {
+  if (!requiresDailyExecution(node)) {
+    return (node.consecutiveExecutions ?? 0) + 1;
+  }
   const yesterday = new Date(now);
   yesterday.setDate(yesterday.getDate() - 1);
   if (

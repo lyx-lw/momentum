@@ -47,6 +47,7 @@ export function createLibraryOperations({
         useTimer: node.useTimer ?? current.useTimer,
         timerMinutes: node.timerMinutes ?? current.timerMinutes,
         isPassive: node.isPassive ?? current.isPassive,
+        requiresDailyExecution: node.requiresDailyExecution !== false,
         cumulativeExecutionDays,
         internalizationProgress: computeInternalizationProgress(
           cumulativeExecutionDays,
@@ -71,6 +72,7 @@ export function createLibraryOperations({
       useTimer: node.useTimer,
       timerMinutes: node.timerMinutes,
       isPassive: node.isPassive,
+      requiresDailyExecution: node.requiresDailyExecution !== false,
       cumulativeExecutionDays,
       internalizationProgress: computeInternalizationProgress(
         cumulativeExecutionDays,
@@ -110,6 +112,7 @@ export function createLibraryOperations({
       type: entry.type,
       emoji: entry.emoji,
       isPassive: entry.isPassive,
+      requiresDailyExecution: entry.requiresDailyExecution !== false,
       cumulativeExecutionDays: entry.cumulativeExecutionDays,
       stabilityPhase: 'E0',
       consecutiveExecutions: 0,

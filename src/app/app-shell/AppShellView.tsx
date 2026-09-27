@@ -176,6 +176,9 @@ export function AppShellView({
                 executionRecords={rsip.executionRecords}
                 taskLinks={rsip.taskLinks}
                 chains={rsip.chains}
+                canConfigureExecutionFrequency={
+                  rsip.canConfigureExecutionFrequency
+                }
                 onBack={rsip.onBack}
                 onSaveNodes={rsip.saveNodes}
                 onSaveMeta={rsip.saveMeta}

@@ -120,6 +120,46 @@ describe('import/rsip parser', () => {
     expect(runHistory[0]?.endedAt).toBeInstanceOf(Date);
   });
 
+  test('preserves execution frequency when importing nodes and library entries', () => {
+    const { nodes } = parseImportRsipNodes(
+      [
+        {
+          id: 'non-daily-node',
+          title: 'Non-daily node',
+          rule: 'rule',
+          requiresDailyExecution: false,
+        },
+        {
+          id: 'legacy-node',
+          title: 'Legacy node',
+          rule: 'rule',
+        },
+      ],
+      [],
+      tr,
+    );
+    const library = parseImportRsipLibrary([
+      {
+        title: 'Non-daily library entry',
+        rule: 'rule',
+        requiresDailyExecution: false,
+      },
+      {
+        title: 'Legacy library entry',
+        rule: 'rule',
+      },
+    ]);
+
+    expect(nodes.map((node) => node.requiresDailyExecution)).toEqual([
+      false,
+      true,
+    ]);
+    expect(library.map((entry) => entry.requiresDailyExecution)).toEqual([
+      false,
+      true,
+    ]);
+  });
+
   test('skips invalid execution and task-link references', () => {
     const { rsipIdMap } = parseImportRsipNodes(
       [

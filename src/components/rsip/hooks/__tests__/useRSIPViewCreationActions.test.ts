@@ -250,6 +250,7 @@ describe('useRSIPViewCreationActions', () => {
         createType: 'routine',
         createEmoji: '🌅',
         createIsPassive: true,
+        createRequiresDailyExecution: false,
         setTitle,
         setRule,
       },
@@ -271,6 +272,7 @@ describe('useRSIPViewCreationActions', () => {
       type: 'routine',
       emoji: '🌅',
       isPassive: true,
+      requiresDailyExecution: false,
     };
     expect(onSaveNodes).toHaveBeenCalledWith([existing, expectedNode]);
     expect(onSaveMeta).toHaveBeenCalledWith({
@@ -540,6 +542,7 @@ describe('useRSIPViewCreationActions', () => {
         selectedGroupId: 'group-1',
         createType: 'policy',
         createEmoji: '📜',
+        createRequiresDailyExecution: false,
         splitGoal: '  Better sleep  ',
         splitItems: [
           {
@@ -578,6 +581,7 @@ describe('useRSIPViewCreationActions', () => {
         type: 'policy',
         emoji: '📜',
         isPassive: false,
+        requiresDailyExecution: false,
         splitFromGoal: 'Better sleep',
       },
       {
@@ -591,6 +595,7 @@ describe('useRSIPViewCreationActions', () => {
         type: 'policy',
         emoji: '📜',
         isPassive: true,
+        requiresDailyExecution: false,
         splitFromGoal: 'Better sleep',
       },
     ]);

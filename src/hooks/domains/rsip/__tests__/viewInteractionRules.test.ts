@@ -126,6 +126,7 @@ describe('RSIP view interaction rules', () => {
       timesUsed: 2,
       emoji: '🧭',
       isPassive: true,
+      requiresDailyExecution: false,
       useTimer: true,
       timerMinutes: 15,
     };
@@ -145,6 +146,7 @@ describe('RSIP view interaction rules', () => {
       emoji: '🧭',
       type: 'discipline',
       isPassive: true,
+      requiresDailyExecution: false,
       cumulativeExecutionDays: 5,
     });
   });
@@ -286,6 +288,21 @@ describe('RSIP view interaction rules', () => {
         lastExecutedAt: now,
       },
     ]);
+  });
+
+  it('increments non-daily execution progress across calendar gaps', () => {
+    const now = new Date(2026, 8, 3, 12);
+    const target = node({
+      id: 'target',
+      requiresDailyExecution: false,
+      lastExecutedAt: new Date(2026, 8, 1, 12),
+      consecutiveExecutions: 4,
+    });
+
+    expect(markNodeExecutedFallback([target], 'target', now)[0]).toMatchObject({
+      consecutiveExecutions: 5,
+      lastExecutedAt: now,
+    });
   });
 
   it('leaves all nodes untouched when the executed node is missing', () => {

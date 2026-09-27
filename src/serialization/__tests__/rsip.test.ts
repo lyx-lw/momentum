@@ -28,6 +28,40 @@ describe('serialization/rsip', () => {
     expect(node.lastViolatedAt).toBeInstanceOf(Date);
   });
 
+  it('defaults execution frequency to daily and preserves explicit false', () => {
+    const baseNode = {
+      id: 'node-1',
+      title: 'Rule',
+      rule: 'Do it',
+      sortOrder: 1,
+      createdAt: '2026-02-01T00:00:00.000Z',
+    };
+
+    expect(decodeRSIPNode(baseNode)).toMatchObject({
+      requiresDailyExecution: true,
+    });
+    expect(
+      decodeRSIPNode({ ...baseNode, requiresDailyExecution: false }),
+    ).toMatchObject({ requiresDailyExecution: false });
+
+    const baseEntry = {
+      id: 'entry-1',
+      title: 'Entry',
+      rule: 'Rule',
+      cumulativeExecutionDays: 1,
+      internalizationProgress: 2,
+      lastActiveAt: '2026-02-01T00:00:00.000Z',
+      timesUsed: 1,
+    };
+
+    expect(decodeRSIPLibraryEntry(baseEntry)).toMatchObject({
+      requiresDailyExecution: true,
+    });
+    expect(
+      decodeRSIPLibraryEntry({ ...baseEntry, requiresDailyExecution: false }),
+    ).toMatchObject({ requiresDailyExecution: false });
+  });
+
   it('falls back for invalid rsip dates that require now', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-03-08T08:00:00.000Z'));

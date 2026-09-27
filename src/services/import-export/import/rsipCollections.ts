@@ -8,6 +8,7 @@ import {
   isRecord,
   parseTruthyDateOrNow,
   parseTruthyDateOrUndefined,
+  toBooleanWithDefault,
   toNumber,
   toOptionalBoolean,
   toOptionalNumber,
@@ -67,6 +68,10 @@ export function parseImportRsipLibrary(
       useTimer: toOptionalBoolean(raw.useTimer),
       timerMinutes: toOptionalNumber(raw.timerMinutes),
       isPassive: toOptionalBoolean(raw.isPassive),
+      requiresDailyExecution: toBooleanWithDefault(
+        raw.requiresDailyExecution,
+        true,
+      ),
     }));
 }
 

@@ -143,6 +143,7 @@ describe('viewModelBuilders', () => {
       executionRecords: [],
       taskLinks: [],
       chains: [createUnitChain({ id: 'unit-1' })],
+      canConfigureExecutionFrequency: false,
       onBack: vi.fn(),
       saveNodes,
       saveMeta: vi.fn(),
@@ -167,6 +168,7 @@ describe('viewModelBuilders', () => {
 
     expect(rsip.saveNodes).toBe(saveNodes);
     expect(rsip.getTaskActions).toBe(getTaskActions);
+    expect(rsip.canConfigureExecutionFrequency).toBe(false);
     expect(rsip.handleStartChain).toBe(handleStartChain);
     expect(rsip.handleScheduleChain).toBe(handleScheduleChain);
   });

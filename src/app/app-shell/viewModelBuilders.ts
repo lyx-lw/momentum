@@ -84,6 +84,7 @@ interface BuildRsipViewModelInputs {
   executionRecords: RSIPExecutionRecord[];
   taskLinks: RSIPTaskLink[];
   chains: Chain[];
+  canConfigureExecutionFrequency: boolean;
   onBack: () => void;
   saveNodes: (nodes: RSIPNode[]) => Promise<void>;
   saveMeta: (meta: RSIPMeta) => Promise<void>;
@@ -216,6 +217,7 @@ export function buildRsipViewModel(
     executionRecords: inputs.executionRecords,
     taskLinks: inputs.taskLinks,
     chains: inputs.chains,
+    canConfigureExecutionFrequency: inputs.canConfigureExecutionFrequency,
     onBack: inputs.onBack,
     saveNodes: inputs.saveNodes,
     saveMeta: inputs.saveMeta,

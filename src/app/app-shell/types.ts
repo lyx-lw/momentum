@@ -108,6 +108,7 @@ export interface AppShellRsipViewModel {
   executionRecords: RSIPExecutionRecord[];
   taskLinks: RSIPTaskLink[];
   chains: Chain[];
+  canConfigureExecutionFrequency: boolean;
   onBack: () => void;
   saveNodes: (nodes: RSIPNode[]) => Promise<void>;
   saveMeta: (meta: RSIPMeta) => Promise<void>;

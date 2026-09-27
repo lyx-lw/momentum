@@ -45,6 +45,12 @@ describe('useRSIPViewState daily creation limit', () => {
     expect(result.current.canAddToday).toBe(true);
   });
 
+  it('defaults newly created policies to daily execution', () => {
+    const { result } = renderState([], {});
+
+    expect(result.current.createRequiresDailyExecution).toBe(true);
+  });
+
   it('uses the newest persisted fact from metadata or node creation time', () => {
     const yesterday = new Date(NOW);
     yesterday.setDate(yesterday.getDate() - 1);

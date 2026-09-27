@@ -33,6 +33,7 @@ export interface RSIPNode {
   maxReinforcementLevel?: number; // 历史最高强化等级
   cumulativeExecutionDays?: number; // 跨轮次累计执行天数
   isPassive?: boolean; // 被动国策（维护成本近似为0）
+  requiresDailyExecution?: boolean; // 是否要求每日执行，缺失时按每日处理
   splitFromGoal?: string; // 拆分来源目标
 
   // === 严格模式字段（仅在 allowMultiplePerDay=false 时使用）===
@@ -106,6 +107,7 @@ export interface RSIPLibraryEntry {
   useTimer?: boolean;
   timerMinutes?: number;
   isPassive?: boolean;
+  requiresDailyExecution?: boolean;
 }
 
 export interface RSIPRunRecord {

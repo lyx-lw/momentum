@@ -19,6 +19,7 @@ describe('buildRSIPNodeRows', () => {
       maxReinforcementLevel: 3,
       cumulativeExecutionDays: 12,
       isPassive: true,
+      requiresDailyExecution: false,
       splitFromGoal: '早睡早起',
       stabilityPhase: 'E1',
       phaseStartedAt: new Date('2026-02-07T00:10:00.000Z'),
@@ -42,6 +43,7 @@ describe('buildRSIPNodeRows', () => {
     expect(row).toHaveProperty('group_id', 'group-1');
     expect(row).toHaveProperty('reinforcement_level', 2);
     expect(row).toHaveProperty('split_from_goal', '早睡早起');
+    expect(row).toHaveProperty('requires_daily_execution', false);
   });
 
   it('includes complete-schema defaults for optional node fields', () => {
@@ -63,6 +65,7 @@ describe('buildRSIPNodeRows', () => {
     expect(row).toHaveProperty('consecutive_executions', 0);
     expect(row).toHaveProperty('stability_phase', 'E0');
     expect(row).toHaveProperty('group_id', null);
+    expect(row).toHaveProperty('requires_daily_execution', true);
     expect(row.user_id).toBe('user-1');
   });
 });

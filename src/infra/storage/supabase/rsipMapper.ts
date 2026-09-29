@@ -38,6 +38,7 @@ export function mapRSIPNodeRow(row: RSIPNodeRow): RSIPNode {
     maxReinforcementLevel: row.max_reinforcement_level ?? undefined,
     cumulativeExecutionDays: row.cumulative_execution_days ?? undefined,
     isPassive: row.is_passive ?? undefined,
+    requiresDailyExecution: row.requires_daily_execution ?? true,
     splitFromGoal: row.split_from_goal ?? undefined,
     stabilityPhase: row.stability_phase ?? 'E0',
     phaseStartedAt: row.phase_started_at,
@@ -90,6 +91,7 @@ export function mapRSIPLibraryEntryRow(
     timerMinutes:
       row.timer_minutes == null ? undefined : Number(row.timer_minutes),
     isPassive: Boolean(row.is_passive ?? false),
+    requiresDailyExecution: Boolean(row.requires_daily_execution ?? true),
   });
 }
 

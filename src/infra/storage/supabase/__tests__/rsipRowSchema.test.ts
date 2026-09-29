@@ -10,6 +10,7 @@ const validNodeRow = {
   created_at: '2026-01-01T00:00:00Z',
   use_timer: true,
   timer_minutes: 10,
+  requires_daily_execution: false,
   stability_phase: 'E1',
   phase_started_at: '2026-01-01T00:00:00Z',
   last_executed_at: '2026-07-07T08:00:00Z',
@@ -25,6 +26,7 @@ describe('rsipNodeRowSchema', () => {
   it('accepts a valid RSIP node row', () => {
     const result = rsipNodeRowSchema.safeParse(validNodeRow);
     expect(result.success).toBe(true);
+    expect(result.data?.requires_daily_execution).toBe(false);
   });
 
   it('accepts a minimal node row (only required fields)', () => {
@@ -41,6 +43,15 @@ describe('rsipNodeRowSchema', () => {
       user_id: 'user-1',
     });
     expect(result.success).toBe(true);
+  });
+
+  it('accepts a nullable execution frequency column for legacy rows', () => {
+    const result = rsipNodeRowSchema.safeParse({
+      ...validNodeRow,
+      requires_daily_execution: null,
+    });
+    expect(result.success).toBe(true);
+    expect(result.data?.requires_daily_execution).toBeNull();
   });
 
   it('rejects a row missing user_id', () => {

@@ -6,6 +6,8 @@ import {
   saveRSIPMeta,
   getRSIPGroups,
   getRSIPExecutionRecords,
+  getRSIPPolicyLibrary,
+  saveRSIPPolicyLibrary,
 } from '../rsip';
 import {
   createMockContext,
@@ -140,6 +142,102 @@ describe('rsip.ts', () => {
       const result = await getRSIPNodes(ctx);
 
       expect(result[0].parentId).toBeUndefined();
+    });
+
+    it('defaults missing or null execution frequency to daily', async () => {
+      const queryBuilder = createMockQueryBuilder({
+        data: [
+          createMockRSIPNodeRow({ id: 'missing-frequency' }),
+          createMockRSIPNodeRow({
+            id: 'null-frequency',
+            requires_daily_execution: null,
+          }),
+          createMockRSIPNodeRow({
+            id: 'non-daily',
+            requires_daily_execution: false,
+          }),
+        ],
+        error: null,
+      });
+      const ctx = createMockContext({ queryBuilder });
+
+      const result = await getRSIPNodes(ctx);
+
+      expect(result.map((node) => node.requiresDailyExecution)).toEqual([
+        true,
+        true,
+        false,
+      ]);
+    });
+  });
+
+  describe('getRSIPPolicyLibrary', () => {
+    it('defaults legacy entries to daily and preserves explicit false', async () => {
+      const queryBuilder = createMockQueryBuilder({
+        data: [
+          {
+            id: 'legacy',
+            title: 'Legacy',
+            rule: 'Rule',
+            cumulative_execution_days: 1,
+            internalization_progress: 1,
+            last_active_at: '2026-01-01T00:00:00Z',
+            times_used: 1,
+          },
+          {
+            id: 'non-daily',
+            title: 'Non-daily',
+            rule: 'Rule',
+            cumulative_execution_days: 1,
+            internalization_progress: 1,
+            last_active_at: '2026-01-01T00:00:00Z',
+            times_used: 1,
+            requires_daily_execution: false,
+          },
+        ],
+        error: null,
+      });
+      const ctx = createMockContext({ queryBuilder });
+
+      const entries = await getRSIPPolicyLibrary(ctx);
+
+      expect(entries.map((entry) => entry.requiresDailyExecution)).toEqual([
+        true,
+        false,
+      ]);
+    });
+  });
+
+  describe('saveRSIPPolicyLibrary', () => {
+    it('persists explicit non-daily frequency', async () => {
+      const ctx = createMockContext();
+      const insert = vi.fn().mockResolvedValue({ error: null });
+      ctx.mockClient.from = vi.fn().mockReturnValue({
+        delete: vi.fn().mockReturnValue({
+          eq: vi.fn().mockResolvedValue({ error: null }),
+        }),
+        insert,
+      });
+
+      await saveRSIPPolicyLibrary(ctx, [
+        {
+          id: 'non-daily',
+          title: 'Non-daily',
+          rule: 'Rule',
+          cumulativeExecutionDays: 1,
+          internalizationProgress: 1,
+          lastActiveAt: new Date('2026-01-01T00:00:00Z'),
+          timesUsed: 1,
+          requiresDailyExecution: false,
+        },
+      ]);
+
+      expect(insert).toHaveBeenCalledWith([
+        expect.objectContaining({
+          id: 'non-daily',
+          requires_daily_execution: false,
+        }),
+      ]);
     });
   });
 

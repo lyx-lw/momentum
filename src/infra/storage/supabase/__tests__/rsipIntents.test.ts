@@ -89,6 +89,7 @@ describe('supabase/rsipIntents', () => {
       internalizationProgress: 1,
       lastActiveAt: new Date('2026-03-07T00:00:00.000Z'),
       timesUsed: 1,
+      requiresDailyExecution: false,
     });
 
     expect(upsert).toHaveBeenCalledWith(
@@ -96,6 +97,7 @@ describe('supabase/rsipIntents', () => {
         id: 'library-1',
         title: 'Library',
         user_id: 'test-user-123',
+        requires_daily_execution: false,
       }),
       { onConflict: 'user_id,id' },
     );

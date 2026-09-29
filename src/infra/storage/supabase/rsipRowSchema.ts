@@ -16,6 +16,7 @@ export const rsipNodeRowSchema = z.object({
   max_reinforcement_level: z.number().nullable().optional(),
   cumulative_execution_days: z.number().nullable().optional(),
   is_passive: z.boolean().nullable().optional(),
+  requires_daily_execution: z.boolean().nullable().optional(),
   split_from_goal: z.string().nullable().optional(),
   stability_phase: z.string().nullable().optional(),
   phase_started_at: z.string().nullable(),

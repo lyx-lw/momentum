@@ -20,6 +20,7 @@ type RSIPNodePayload = RSIPNodeBasePayload & {
   max_reinforcement_level: number;
   cumulative_execution_days: number;
   is_passive: boolean;
+  requires_daily_execution: boolean;
   split_from_goal: string | null;
   stability_phase: RSIPStabilityPhase;
   phase_started_at: string | null;
@@ -61,6 +62,7 @@ function buildStrictNodePayload(
     max_reinforcement_level: node.maxReinforcementLevel ?? 0,
     cumulative_execution_days: node.cumulativeExecutionDays ?? 0,
     is_passive: node.isPassive ?? false,
+    requires_daily_execution: node.requiresDailyExecution !== false,
     split_from_goal: node.splitFromGoal ?? null,
     stability_phase: node.stabilityPhase ?? 'E0',
     phase_started_at: node.phaseStartedAt?.toISOString() ?? null,

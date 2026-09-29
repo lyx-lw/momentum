@@ -237,6 +237,7 @@ export interface Database {
           max_reinforcement_level: number;
           cumulative_execution_days: number;
           is_passive: boolean;
+          requires_daily_execution: boolean;
           split_from_goal: string | null;
           stability_phase: 'E0' | 'E1' | 'E2' | null;
           phase_started_at: string | null;
@@ -264,6 +265,7 @@ export interface Database {
           max_reinforcement_level?: number;
           cumulative_execution_days?: number;
           is_passive?: boolean;
+          requires_daily_execution?: boolean;
           split_from_goal?: string | null;
           stability_phase?: 'E0' | 'E1' | 'E2' | null;
           phase_started_at?: string | null;
@@ -291,6 +293,7 @@ export interface Database {
           max_reinforcement_level?: number;
           cumulative_execution_days?: number;
           is_passive?: boolean;
+          requires_daily_execution?: boolean;
           split_from_goal?: string | null;
           stability_phase?: 'E0' | 'E1' | 'E2' | null;
           phase_started_at?: string | null;
@@ -426,6 +429,7 @@ export interface Database {
           use_timer: boolean;
           timer_minutes: number | null;
           is_passive: boolean;
+          requires_daily_execution: boolean;
           updated_at: string;
         };
         Insert: {
@@ -442,6 +446,7 @@ export interface Database {
           use_timer?: boolean;
           timer_minutes?: number | null;
           is_passive?: boolean;
+          requires_daily_execution?: boolean;
           updated_at?: string;
         };
         Update: {
@@ -458,6 +463,7 @@ export interface Database {
           use_timer?: boolean;
           timer_minutes?: number | null;
           is_passive?: boolean;
+          requires_daily_execution?: boolean;
           updated_at?: string;
         };
         Relationships: [];

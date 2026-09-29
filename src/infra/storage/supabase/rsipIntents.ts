@@ -103,6 +103,7 @@ export async function upsertRSIPLibraryEntry(
       use_timer: entry.useTimer ?? false,
       timer_minutes: entry.timerMinutes ?? null,
       is_passive: entry.isPassive ?? false,
+      requires_daily_execution: entry.requiresDailyExecution !== false,
       updated_at: new Date().toISOString(),
     },
     { onConflict: 'user_id,id' },

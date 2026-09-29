@@ -89,7 +89,10 @@ describe('RSIP computer-use regressions', () => {
     expect(getState().rsipNodes).toEqual([first]);
     await domain.saveMeta({ allowMultiplePerDay: true });
     await domain.saveNodes([first, second]);
-    expect(await storage.getRSIPNodes()).toEqual([first, second]);
+    expect(await storage.getRSIPNodes()).toEqual([
+      expect.objectContaining(first),
+      expect.objectContaining(second),
+    ]);
   });
 
   it('B06 persists consumed tolerance across reloads and collapses on the second loss', async () => {

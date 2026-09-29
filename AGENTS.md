@@ -15,6 +15,23 @@ This file is the primary operating guide for coding agents working in this repos
 - Typecheck: `npm run typecheck`
 - Lint: `npm run lint`
 
+## Production and Release Baseline
+
+The following is a dated handoff snapshot from 2026-09-29. Re-verify remote state before any future release operation.
+
+- GitHub repository: `lyx-lw/momentum`
+- GitHub default branch: `main`
+- Netlify project: `momentum-lyx`
+- Netlify production branch: `main`
+- Published production commit: `7fdadaf77d9e6b301c198ea14e0e0bb2c6e6d6d0`
+- Published Netlify deploy: `6abb28fc1297987b85ed8974`
+- Previous production rollback point: `5aa9b4a2b77abde97fdf39c58e652b8256ab4bf1`
+- Production continues to use local storage. The archived Supabase RSIP-frequency candidate is not deployed and its migration has not been applied.
+
+Release work must start from the isolated `main` worktree, not from an old feature/deploy worktree or the archived mixed workspace. Preserve `archive/local-main-20260929`, `feat/rsip-policy-editing`, and the two `tmp_*` acceptance directories until their separate review and cleanup are explicitly authorized.
+
+See `docs/guides/NETLIFY_PWA_HANDOFF.md` for verification evidence, rollback details, worktree risks, and the release checklist.
+
 ## Architecture Overview
 
 ### Three-Layer Architecture

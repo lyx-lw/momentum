@@ -10,7 +10,7 @@
 
 ---
 
-### Task 1: 共享连续记录中断判断
+## Task 1: 共享连续记录中断判断
 
 **Files:**
 
@@ -63,7 +63,7 @@ export function willResetExecutionStreak(
 
 该函数只复用现有本地自然日口径，不改变 `nextExecutionStreak()` 的行为。
 
-### Task 2: 明确连续与累计执行信息
+## Task 2: 明确连续与累计执行信息
 
 **Files:**
 
@@ -106,7 +106,7 @@ interface RSIPPhaseProgressProps {
 
 使用 `node.cumulativeExecutionDays ?? 0`，不把 `totalExecutions` 当作累计天数回退值，避免混淆“执行次数”和“执行天数”。
 
-### Task 3: 当天禁用与漏日确认
+## Task 3: 当天禁用与漏日确认
 
 **Files:**
 
@@ -156,7 +156,7 @@ onClick = { handleExecutionClick };
 
 取消不得写入；确认时先关闭弹窗，再调用现有 `onMarkExecuted`。本次不增加跨午夜自动刷新计时器。
 
-### Task 4: 针对性验证与原子提交
+## Task 4: 针对性验证与原子提交
 
 **Files:**
 
